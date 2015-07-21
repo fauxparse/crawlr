@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Ability, type: :model do
   it {
@@ -10,7 +10,7 @@ RSpec.describe Ability, type: :model do
 
   it { is_expected.to validate_inclusion_of(:stat).in_array(Ability::STATS) }
 
-  describe '#modifier' do
+  describe "#modifier" do
     modifiers = {
        8 => -1,  9 => -1,
       10 =>  0, 11 =>  0,

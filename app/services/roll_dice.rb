@@ -13,7 +13,7 @@ class RollDice
   end
 
   def call
-    @dice.split('+').map { |d| roll d.strip }.sum
+    @dice.split("+").map { |d| roll d.strip }.sum
   end
 
   private
