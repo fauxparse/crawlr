@@ -1,0 +1,13 @@
+en:
+  activerecord:
+    errors:
+      messages:
+        bad_abilities: "You must have one (and only one) score for each ability"
+  ability:
+    stats:
+      str: Strength
+      con: Constitution
+      dex: Dexterity
+      int: Intelligence
+      wis: Wisdom
+      cha: Charisma
