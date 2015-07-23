@@ -1,60 +1,111 @@
-.ability {
-  background: #eee;
-  border-radius: 0.25em;
-  padding: 0;
-  margin-bottom: 1rem;
-
-  abbr {
-    display: block;
-    background: #ddd;
-    font-size: 100%;
-    padding: 0em 0.5em;
-    margin: 0 0 0.5em;
-    border: none;
-    border-radius: 0.25em 0.25em 0 0;
-    text-align: center;
+.abilities {
+  .stats {
+    @include align-items(stretch);
+    @include display(flex);
+    @include flex-direction(row);
+    @include justify-content(flex-start);
   }
 
-  .current {
-    position: relative;
+  .strategy-and-points {
+    @include display(flex);
+    @include flex-direction(row);
+    @include justify-content(space-between);
+    border: 1px solid $border-color;
+    padding: 0.4rem;
+    margin: 0 0 1rem;
+    border-radius: $border-radius;
 
-    .score {
-      font-size: 200%;
-      text-align: center;
-    }
-
-    .modifier {
-      @include position(absolute, 50% 0.5em null null);
-      margin: -0.75em 0;
-      font-size: 100%;
-      width: 1.5em;
-      height: 1.5em;
-      line-height: 1.5em;
-      text-align: center;
-      vertical-align: middle;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
-    }
-  }
-
-  .maths {
-    padding: 0.25em;
-    text-align: center;
-
-    input {
+    input, select {
       margin: 0;
-      text-align: center;
+    }
+
+    .strategy, .points {
+      label, select {
+        display: inline-block;
+      }
+
+      label {
+        padding: 0 0.5rem;
+      }
+    }
+
+    .points input {
+      width: 4em;
     }
   }
 }
 
+.ability {
+  @include flex(1);
+
+  background: #eee;
+  border-radius: $border-radius;
+  padding: 0;
+  margin-bottom: 1rem;
+
+  &:not(:last-child) {
+    margin-right: 1rem;
+  }
+
+  header {
+    font-size: 1em;
+    padding: 0.5rem 1rem;
+    background: #ddd;
+    margin: 0;
+    @include border-top-radius($border-radius);
+    @include display(flex);
+    @include flex-direction(row);
+    @include justify-content(space-between);
+
+    abbr {
+      border: none;
+    }
+
+    small {
+      font-size: 100%;
+    }
+  }
+
+  .score {
+    font-size: 200%;
+    text-align: center;
+  }
+
+  footer {
+    padding: 0.5rem;
+    @include align-items(stretch);
+    @include display(flex);
+    @include flex-direction(row);
+    @include justify-content(flex-start);
+
+    > * {
+      @include flex(1);
+    }
+
+  }
+
+  .bonus {
+    text-align: right;
+    line-height: 38px;
+    vertical-align: middle;
+    padding: 0 0.5rem;
+  }
+}
+
 input.base {
+  margin: 0;
+  padding-right: 0.2rem;
+  text-align: center;
+
   &, &[disabled] { cursor: move; }
 
   &.dragging {
     box-shadow: 0 0 0.25em rgba(0, 0, 0, 0.1);
     position: absolute;
     opacity: 0.9;
+  }
+
+  &.hover {
+    border-color: $border-color-focus;
   }
 }

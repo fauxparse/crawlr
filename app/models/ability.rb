@@ -17,7 +17,11 @@ class Ability < ActiveRecord::Base
     }
 
   def score
-    base
+    base + bonus
+  end
+
+  def bonus
+    0
   end
 
   def cost

@@ -119,7 +119,10 @@ class Editor {
     if (Math.abs(dx) > 5 && !this._drag.helper) {
       this._drag.helper = this._drag.source.clone().appendTo("body")
         .addClass("dragging")
-        .css({ top: this._drag.origin.y - this._drag.offset.y });
+        .css({
+          top: this._drag.origin.y - this._drag.offset.y,
+          width: this._drag.source.outerWidth()
+        });
     }
 
     if (this._drag.helper) {
@@ -151,6 +154,7 @@ class Editor {
     }
 
     $(window).off(".drag-ability");
+    this.form.find(".abilities .base").removeClass("hover");
     delete this._drag;
   }
 }

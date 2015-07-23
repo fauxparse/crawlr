@@ -1,13 +1,14 @@
 <%= form.fields_for ability.stat, ability do |f| %>
-  <%= content_tag :div, class: "ability two columns", data: { ability: ability.stat } do %>
+  <%= content_tag :div, class: "ability", data: { ability: ability.stat } do %>
     <%= f.hidden_field :strategy %>
-    <%= content_tag :abbr, ability.abbreviation, title: ability %>
-    <div class="current">
-      <%= content_tag :div, ability.score, class: "score" %>
+    <header>
+      <%= content_tag :abbr, ability.abbreviation, title: ability %>
       <%= content_tag :small, signed(ability.modifier), class: "modifier" %>
-    </div>
-    <div class="maths">
+    </header>
+    <%= content_tag :div, ability.score, class: "score" %>
+    <footer>
       <%= ability_base_field f, ability %>
-    </div>
+      <%= content_tag :div, signed(ability.bonus), class: "bonus" %>
+    </footer>
   <% end %>
 <% end %>
