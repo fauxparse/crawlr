@@ -3,8 +3,8 @@ module Abilities
 
   class AbilitiesValidator < ActiveModel::Validator
     def validate(record)
-      unless abilities.map(&:stat).sort == Ability::STATS.sort
-        record.add_error :abilities, :bad_abilities
+      unless record.abilities.sort.map(&:stat) == Ability::STATS
+        record.errors.add :abilities, :bad_abilities
       end
     end
   end
@@ -18,6 +18,8 @@ module Abilities
     end
 
     after_initialize :initialize_abilities
+
+    validates_with AbilitiesValidator
   end
 
   def ability_strategy

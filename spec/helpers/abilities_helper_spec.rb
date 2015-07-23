@@ -1,15 +1,13 @@
-require 'rails_helper'
+require "rails_helper"
 
-# Specs in this file have access to a helper object that includes
-# the AbilitiesHelper. For example:
-#
-# describe AbilitiesHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
 RSpec.describe AbilitiesHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "#signed" do
+    it "displays negative numbers with a minus sign" do
+      expect(helper.signed(-1)).to eq "-1"
+    end
+
+    it "displays positive numbers with a plus sign" do
+      expect(helper.signed(1)).to eq "+1"
+    end
+  end
 end
