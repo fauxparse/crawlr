@@ -1,23 +1,25 @@
 <div class="character-sheet">
-  <%= form.fields_for :abilities, form.object do |abilities| -%>
-    <%= abilities.fields_for :stats, form.object do |stats| -%>
+  <section class="abilities">
+    <%= form.fields_for :abilities, form.object do |abilities| -%>
+      <%= abilities.fields_for :stats, form.object do |stats| -%>
+        <div class="row">
+          <%= render partial: "ability", collection: @character.abilities.sort.map { |a| AbilityPresenter.new(a) }, locals: { form: stats } %>
+        </div>
+      <% end -%>
+
       <div class="row">
-        <%= render partial: "ability", collection: @character.abilities.sort.map { |a| AbilityPresenter.new(a) }, locals: { form: stats } %>
+        <div class="twelve columns">
+          <%= abilities.fields_for :strategy, form.object.ability_strategy do |f| %>
+            <%= f.label :name, t("ability.strategy.name") %>
+            <%= ability_strategy_selector f %>
+
+            <%= content_tag :div, class: "points", style: "#{"display: none" unless f.object.respond_to? :points_remaining}" do -%>
+              <%= f.label :name, t("ability.strategy.points_remaining") %>
+              <%= f.number_field :points_remaining, value: f.object.try(:points_remaining), disabled: true, min: 0 %>
+            <% end -%>
+          <% end -%>
+        </div>
       </div>
     <% end -%>
-
-    <div class="row">
-      <div class="twelve columns">
-        <%= abilities.fields_for :strategy, form.object.ability_strategy do |f| %>
-          <%= f.label :name, t("ability.strategy.name") %>
-          <%= ability_strategy_selector f %>
-
-          <%= content_tag :div, class: "points", style: "#{"display: none" unless f.object.respond_to? :points_remaining}" do -%>
-            <%= f.label :name, t("ability.strategy.points_remaining") %>
-            <%= f.number_field :points_remaining, value: f.object.try(:points_remaining), disabled: true, min: 0 %>
-          <% end -%>
-        <% end -%>
-      </div>
-    </div>
-  <% end -%>
+  </section>
 </div>

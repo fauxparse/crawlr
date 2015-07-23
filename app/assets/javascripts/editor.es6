@@ -1,7 +1,9 @@
 class Editor {
   constructor(form) {
-    this.form = $(form);
-    this.form.on("input, change", ":input", this.fieldChanged.bind(this));
+    this.form = $(form)
+      .on("input, change", ":input", this.fieldChanged.bind(this))
+      .on("mousedown", ".ability .base", this.dragAbilityStart.bind(this))
+      ;
   }
 
   fieldChanged(e) {
@@ -93,6 +95,63 @@ class Editor {
       root[key] = root[key] || {};
       this.setJSONValue(root[key], parts, value);
     }
+  }
+
+  dragAbilityStart(e) {
+    var source = $(e.target), position = source.offset();
+
+    this._drag = {
+      source: source,
+      origin: { x: e.pageX, y: e.pageY },
+      offset: { x: e.pageX - position.left, y: e.pageY - position.top }
+    };
+
+    $(window)
+      .on("mousemove.drag-ability", this.dragAbilityMove.bind(this))
+      .on("mouseup.drag-ability", this.dragAbilityEnd.bind(this));
+  }
+
+  dragAbilityMove(e) {
+    var dx = e.pageX - this._drag.origin.x;
+
+    e.preventDefault(); // stop dragging from selecting text in input
+
+    if (Math.abs(dx) > 5 && !this._drag.helper) {
+      this._drag.helper = this._drag.source.clone().appendTo("body")
+        .addClass("dragging")
+        .css({ top: this._drag.origin.y - this._drag.offset.y });
+    }
+
+    if (this._drag.helper) {
+      this._drag.helper.css({ left: e.pageX - this._drag.offset.x });
+
+      this._drag.target = this.form.find(".abilities .base").removeClass("hover").filter(function () {
+        var $this = $(this), position = $this.offset();
+        return e.pageX >= position.left && e.pageY >= position.top &&
+          e.pageX < position.left + $this.outerWidth() &&
+          e.pageY < position.top + $this.outerHeight();
+      }).addClass("hover");
+    }
+  }
+
+  dragAbilityEnd(e) {
+    if (this._drag.helper) {
+      e.preventDefault()
+
+      if (this._drag.target.length) {
+        // swap source and target base scores
+        var source = this._drag.source, target = this._drag.target,
+          a = source.val(), b = target.val();
+        source.val(b);
+        target.val(a);
+        this.fieldChanged();
+      }
+
+      this._drag.helper.remove();
+    }
+
+    $(window).off(".drag-ability");
+    delete this._drag;
   }
 }
 
