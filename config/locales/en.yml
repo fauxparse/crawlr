@@ -11,3 +11,9 @@ en:
       int: Intelligence
       wis: Wisdom
       cha: Charisma
+    strategy:
+      name: "Generate ability scores using:"
+    strategies:
+      point_buy: Spend points
+      random_dice_roll: Random dice roll
+      standard_array: Standard array

@@ -29,7 +29,7 @@ module Crawlr
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    %w(services presenters).each do |dir|
+    %w(services presenters forms).each do |dir|
       config.autoload_paths << Rails.root.join('app', dir)
     end
 

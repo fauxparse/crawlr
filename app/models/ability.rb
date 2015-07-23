@@ -1,7 +1,7 @@
 class Ability < ActiveRecord::Base
-  STATS = %w(str con dex int wis cha).freeze
-  MINIMUM_SCORE = 8
-  MAXIMUM_SCORE = 30
+  STATS = %w(str dex con int wis cha).freeze
+  MINIMUM_BASE = 3
+  MAXIMUM_BASE = 18
 
   belongs_to :character, inverse_of: :abilities
 
@@ -12,8 +12,8 @@ class Ability < ActiveRecord::Base
     presence: true,
     numericality: {
       only_integer: true,
-      greater_than_or_equal_to: MINIMUM_SCORE,
-      less_than_or_equal_to: MAXIMUM_SCORE
+      greater_than_or_equal_to: MINIMUM_BASE,
+      less_than_or_equal_to: MAXIMUM_BASE
     }
 
   def score
@@ -21,10 +21,18 @@ class Ability < ActiveRecord::Base
   end
 
   def cost
-    base - 8
+    if base < 14
+      base - 8
+    else
+      (base - 13) * 2 + 5
+    end
   end
 
   def modifier
     score / 2 - 5
+  end
+
+  def <=>(another)
+    STATS.index(stat) <=> STATS.index(another.stat)
   end
 end

@@ -4,8 +4,8 @@ RSpec.describe Ability, type: :model do
   it {
     is_expected.to validate_numericality_of(:base)
       .only_integer
-      .is_greater_than_or_equal_to(8)
-      .is_less_than_or_equal_to(30)
+      .is_greater_than_or_equal_to(3)
+      .is_less_than_or_equal_to(18)
   }
 
   it { is_expected.to validate_inclusion_of(:stat).in_array(Ability::STATS) }
@@ -23,6 +23,20 @@ RSpec.describe Ability, type: :model do
     modifiers.each_pair do |score, modifier|
       it "is #{modifier} for a score of #{score}" do
         expect(Ability.new(base: score).modifier).to eq modifier
+      end
+    end
+  end
+
+  describe "#cost" do
+    costs = {
+       8 => 0,  9 => 1, 10 => 2,
+      11 => 3, 12 => 4, 13 => 5,
+      14 => 7, 15 => 9
+    }
+
+    costs.each_pair do |score, cost|
+      it "is #{cost} for a score of #{score}" do
+        expect(Ability.new(base: score).cost).to eq cost
       end
     end
   end

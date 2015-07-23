@@ -1,0 +1,13 @@
+<%= form.fields_for ability.stat, ability do |f| %>
+  <%= content_tag :div, class: "ability two columns", data: { ability: ability.stat } do %>
+    <%= f.hidden_field :strategy %>
+    <%= content_tag :abbr, ability.abbreviation, title: ability %>
+    <div class="current">
+      <%= content_tag :div, ability.score, class: "score" %>
+      <%= content_tag :small, signed(ability.modifier), class: "modifier" %>
+    </div>
+    <div class="maths">
+      <%= ability_base_field f, ability %>
+    </div>
+  <% end %>
+<% end %>

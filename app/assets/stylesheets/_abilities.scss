@@ -1,0 +1,50 @@
+.ability {
+  background: #eee;
+  border-radius: 0.25em;
+  padding: 0;
+  margin-bottom: 1rem;
+
+  abbr {
+    display: block;
+    background: #ddd;
+    font-size: 100%;
+    padding: 0em 0.5em;
+    margin: 0 0 0.5em;
+    border: none;
+    border-radius: 0.25em 0.25em 0 0;
+    text-align: center;
+  }
+
+  .current {
+    position: relative;
+
+    .score {
+      font-size: 200%;
+      text-align: center;
+    }
+
+    .modifier {
+      @include position(absolute, 50% 0.5em null null);
+      margin: -0.75em 0;
+      font-size: 100%;
+      width: 1.5em;
+      height: 1.5em;
+      line-height: 1.5em;
+      text-align: center;
+      vertical-align: middle;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+    }
+  }
+
+  .maths {
+    padding: 0.25em;
+    text-align: center;
+
+    input {
+      margin: 0;
+      text-align: center;
+    }
+  }
+}
