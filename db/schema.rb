@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150722020616) do
+ActiveRecord::Schema.define(version: 20150723225650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,5 +29,5 @@ ActiveRecord::Schema.define(version: 20150722020616) do
     t.string   "ability_strategy_name"
   end
 
-  add_foreign_key "abilities", "characters"
+  add_foreign_key "abilities", "characters", on_delete: :cascade
 end

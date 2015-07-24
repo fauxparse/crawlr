@@ -1,6 +1,8 @@
 class Ability::Strategy
   include ActiveModel::Model
 
+  attr_accessor :character
+
   def base_scores
     Ability::STATS.map { Ability::MINIMUM_BASE }
   end
@@ -27,9 +29,9 @@ class Ability::Strategy
     end
   end
 
-  def self.factory(type_name)
+  def self.factory(type_name, character)
     type_name ||= "standard_array"
     type_name = type_name.to_s.camelize
-    const_get(type_name).new
+    const_get(type_name).new character: character
   end
 end

@@ -16,7 +16,7 @@ module AbilitiesHelper
   def ability_strategy_selector(form)
     choices = Ability::Strategy.strategies.map do |strategy|
       name = strategy.name.demodulize.underscore
-      [t("abilities.strategies.#{name}"), name]
+      [t("ability.strategies.#{name}"), name]
     end
 
     form.select :name, choices

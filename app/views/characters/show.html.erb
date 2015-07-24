@@ -1,2 +1,11 @@
-<h1>Characters#show</h1>
-<p>Find me in app/views/characters/show.html.erb</p>
+<%= form_for @character, html: { id: "character-editor", class: "character-editor" } do |form| -%>
+  <header>
+    <div class="container">
+      <button form="character-editor" rel="save" type="submit">Save</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <%= render partial: "form", object: form %>
+  </div>
+<% end -%>

@@ -3,7 +3,7 @@ class Editor {
     this.form = $(form)
       .on("input, change", ":input", this.fieldChanged.bind(this))
       .on("mousedown", ".ability .base", this.dragAbilityStart.bind(this))
-      ;
+      .on("submit", this.save.bind(this));
   }
 
   fieldChanged(e) {
@@ -15,18 +15,44 @@ class Editor {
     this._pendingCheck = setTimeout(this.check.bind(this), 500);
   }
 
-  check() {
+  sendAJAXData(url, data = {}) {
     var json = this.toJSON();
-    $.ajax({
-      url: "/characters/check",
+
+    data = $.extend({
+      url: url,
       type: "post",
       dataType: "json",
       contentType: "application/json",
       data: JSON.stringify(json)
-    }).done(this.processCheckResult.bind(this));
+    }, data);
+
+    // TODO handle errors
+    return $.ajax(data).done(this.processJSON.bind(this));
   }
 
-  processCheckResult(data) {
+  check() {
+    this.sendAJAXData("/characters/check");
+  }
+
+  save(e) {
+    var id = this.form.find("#character_id").val(),
+      url = id ? "/characters/" + id : "/characters",
+      method = id ? "put" : "post";
+
+    if (e) {
+      e.preventDefault();
+    }
+
+    this.sendAJAXData(url, { type: method })
+      .done(function(data) {
+        if (data.id.toString() != id) {
+          this.form.find("#character_id").val(data.id);
+          history.replaceState({}, document.title, "/characters/" + data.id);
+        }
+      }.bind(this));
+  }
+
+  processJSON(data) {
     this.updateValues("character", data);
     this.updateAttributes(data.abilities);
   }
@@ -66,21 +92,22 @@ class Editor {
 
     this.form.find(":input").each(function (i, input) {
       input = $(input);
-      name = input.attr("name");
 
-      if (input.is("select")) {
-        value = input.find(":selected").attr("value")
-      } else {
-        switch (input.attr("type")) {
-          case "number":
-            value = parseInt(input.val(), 10);
-            break;
-          default:
-            value = input.val();
+      if (name = input.attr("name")) {
+        if (input.is("select")) {
+          value = input.find(":selected").attr("value")
+        } else {
+          switch (input.attr("type")) {
+            case "number":
+              value = parseInt(input.val(), 10);
+              break;
+            default:
+              value = input.val();
+          }
         }
-      }
 
-      this.setJSONValue(json, name.replace(/^[^\[]+\[|\]$/g, "").split("]["), value);
+        this.setJSONValue(json, name.replace(/^[^\[]+\[|\]$/g, "").split("]["), value);
+      }
     }.bind(this));
 
     return json;
@@ -160,7 +187,7 @@ class Editor {
 }
 
 $(function () {
-  $(".new_character, .edit_character").each(function () {
+  $(".character-editor").each(function () {
     $(this).data("editor", new Editor(this));
   });
 });

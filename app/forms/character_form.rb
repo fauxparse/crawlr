@@ -1,5 +1,7 @@
 class CharacterForm < SimpleDelegator
-  include ActiveModel::Model
+  # include ActiveModel::Model
+
+  attr_accessor :character
 
   def initialize(character, params = {})
     __setobj__ @character = character

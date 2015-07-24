@@ -23,7 +23,7 @@ module Abilities
   end
 
   def ability_strategy
-    Ability::Strategy.factory ability_strategy_name
+    Ability::Strategy.factory ability_strategy_name, self
   end
 
   protected

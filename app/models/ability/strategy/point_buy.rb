@@ -16,4 +16,12 @@ class Ability::Strategy::PointBuy < Ability::Strategy
   def max
     15
   end
+
+  def points_remaining
+    POINTS_TO_SPEND - total_cost
+  end
+
+  def total_cost
+    character.abilities.map(&:cost).sum
+  end
 end

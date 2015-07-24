@@ -1,3 +1,27 @@
 input[type="number"]:invalid {
   color: red;
 }
+
+label {
+  font-weight: normal;
+}
+
+.character-editor {
+  padding-top: 68px;
+
+  > header {
+    @include position(fixed, 0rem 0rem null 0rem);
+    background: #222;
+    color: white;
+    padding: 1rem 0;
+    z-index: 100;
+
+    button {
+      float: right;
+      margin: 0;
+      background: white;
+      color: #222;
+      border-color: white;
+    }
+  }
+}

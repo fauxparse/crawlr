@@ -1,7 +1,13 @@
 class CharacterSerializer < ActiveModel::Serializer
-  attributes :id, :abilities
+  attributes :abilities
 
   alias_method :character, :object
+
+  def attributes
+    super.tap do |attributes|
+      attributes[:id] = object.id if object.id.present?
+    end
+  end
 
   def abilities
     all = character.abilities.map do |a|
