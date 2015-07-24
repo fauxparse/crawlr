@@ -73,6 +73,7 @@ class Editor {
       this.form.find("[data-ability=" + key + "]")
         .find(".score").text(stat.score).end()
         .find(".modifier").text(this.signed(stat.modifier)).end()
+        .find(".bonus").text(this.signed(stat.bonus)).end()
         .find(".base")
           .prop("disabled", !abilities.strategy.editable)
           .attr("min", stat.min)

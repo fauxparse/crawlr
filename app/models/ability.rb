@@ -21,7 +21,7 @@ class Ability < ActiveRecord::Base
   end
 
   def bonus
-    0
+    character.ability_bonuses.for_stat(stat).map(&:bonus).sum
   end
 
   def cost

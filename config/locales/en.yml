@@ -18,3 +18,24 @@ en:
       point_buy: spending points
       random_dice_roll: rolling dice
       standard_array: using the standard array
+  race:
+    dragonborn: Dragonborn
+    dwarf:
+      hill: Dwarf (Hill Dwarf)
+      mountain: Dwarf (Mountain Dwarf)
+    elf:
+      high: Elf (High Elf)
+      wood: Elf (Wood Elf)
+      dark: Elf (Dark Elf/Drow)
+    gnome:
+      forest: Gnome (Forest Gnome)
+      rock: Gnome (Rock Gnome)
+    half_elf: Half-Elf
+    half_orc: Half-Orc
+    halfling:
+      lightfoot: Halfling (Lightfoot)
+      stout: Halfling (Stout)
+    human:
+      standard: Human (Standard)
+      variant: Human (Variant)
+    tiefling: Tiefling

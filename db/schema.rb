@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150723225650) do
+ActiveRecord::Schema.define(version: 20150724023129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,12 +22,20 @@ ActiveRecord::Schema.define(version: 20150723225650) do
     t.integer "base",                   null: false
   end
 
+  create_table "ability_bonuses", force: :cascade do |t|
+    t.integer "character_id"
+    t.string  "stat",         limit: 3
+    t.integer "bonus"
+  end
+
   create_table "characters", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.string   "ability_strategy_name"
+    t.string   "race_name",             default: "human/standard"
   end
 
   add_foreign_key "abilities", "characters", on_delete: :cascade
+  add_foreign_key "ability_bonuses", "characters", on_delete: :cascade
 end

@@ -1,5 +1,9 @@
 <%= form.hidden_field :id %>
 <div class="character-sheet">
+  <section class="race">
+    <%= race_selector form %>
+  </section>
+
   <section class="abilities">
     <%= form.fields_for :abilities, form.object do |abilities| -%>
       <div class="strategy-and-points">

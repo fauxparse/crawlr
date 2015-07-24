@@ -1,5 +1,5 @@
 class AbilitySerializer < ActiveModel::Serializer
-  attributes :base, :modifier, :score, :strategy, :min, :max
+  attributes :base, :modifier, :score, :strategy, :min, :max, :bonus
 
   def strategy
     object.character.ability_strategy_name

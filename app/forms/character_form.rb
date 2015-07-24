@@ -1,6 +1,4 @@
 class CharacterForm < SimpleDelegator
-  # include ActiveModel::Model
-
   attr_accessor :character
 
   def initialize(character, params = {})
@@ -9,6 +7,11 @@ class CharacterForm < SimpleDelegator
     params.each do |attr, value|
       self.public_send("#{attr}=", value)
     end if params
+  end
+
+  def race_name=(value)
+    character.race_name = value
+    character.send :ensure_correct_ability_bonuses
   end
 
   def abilities=(values)
@@ -37,6 +40,7 @@ class CharacterForm < SimpleDelegator
       end
 
       attributes << { abilities: { stats: abilities, strategy: [ :name ] } }
+      attributes << :race_name
     end
   end
 end
