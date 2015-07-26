@@ -4,10 +4,17 @@ class Editor {
       .on("input, change", ":input", this.fieldChanged.bind(this))
       .on("mousedown", ".ability .base", this.dragAbilityStart.bind(this))
       .on("submit", this.save.bind(this));
+    this.saveButton = $("button[rel=save]");
+    this.setDirty(false);
   }
 
   fieldChanged(e) {
+    this.setDirty(true);
     this.scheduleCheck();
+  }
+
+  setDirty(dirty) {
+    this.saveButton.prop("disabled", !dirty);
   }
 
   scheduleCheck() {
@@ -49,6 +56,7 @@ class Editor {
           this.form.find("#character_id").val(data.id);
           history.replaceState({}, document.title, "/characters/" + data.id);
         }
+        this.setDirty(false);
       }.bind(this));
   }
 
