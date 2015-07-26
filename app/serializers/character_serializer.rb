@@ -1,5 +1,5 @@
 class CharacterSerializer < ActiveModel::Serializer
-  attributes :abilities, :ability_bonuses
+  attributes :abilities
 
   alias_method :character, :object
 
@@ -13,12 +13,11 @@ class CharacterSerializer < ActiveModel::Serializer
     all = character.abilities.map do |a|
       [a.stat, AbilitySerializer.new(AbilityPresenter.new(a))]
     end
-    { stats: Hash[*all.flatten], strategy: ability_strategy }
+    { stats: Hash[*all.flatten], strategy: ability_strategy, bonuses: ability_bonuses }
   end
 
   def ability_bonuses
     character.ability_bonuses
-      .select { |b| !b.marked_for_destruction? }
       .map { |b| Ability::BonusSerializer.new(b) }
   end
 

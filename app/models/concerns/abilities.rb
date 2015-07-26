@@ -29,6 +29,10 @@ module Abilities
     Ability::Strategy.factory ability_strategy_name, self
   end
 
+  def ability_bonus_entitlements
+    race.ability_bonuses
+  end
+
   protected
 
   def initialize_abilities
@@ -37,10 +41,6 @@ module Abilities
     end
 
     AssignInitialAbilityScores.new(self, ability_strategy).call
-  end
-
-  def ability_bonus_entitlements
-    race.ability_bonuses
   end
 
   def ensure_correct_ability_bonuses

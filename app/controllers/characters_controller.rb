@@ -6,7 +6,7 @@ class CharactersController < ApplicationController
   end
 
   def new
-    @character = Character.new
+    @character = CharacterPresenter.new Character.new
     respond_to do |format|
       format.html { render :show }
     end
@@ -22,7 +22,11 @@ class CharactersController < ApplicationController
   end
 
   def show
-    @character = Character.find params[:id]
+    @character = CharacterPresenter.new Character.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json { render json: @character, serializer: CharacterSerializer }
+    end
   end
 
   def update
@@ -31,14 +35,15 @@ class CharactersController < ApplicationController
     character_form.save!
     respond_to do |format|
       format.html { redirect_to character }
-      format.json { render json: character, serializer: CharacterSerializer }
+      format.json { render json: CharacterPresenter.new(character), serializer: CharacterSerializer }
     end
   end
 
   def check
-    character_form = CharacterForm.new(Character.new, character_params)
+    character = Character.new
+    character_form = CharacterForm.new(character, character_params)
     character_form.validate
-    render json: character_form, serializer: CharacterSerializer
+    render json: CharacterPresenter.new(character), serializer: CharacterSerializer
   end
 
   private

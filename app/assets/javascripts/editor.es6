@@ -55,6 +55,7 @@ class Editor {
   processJSON(data) {
     this.updateValues("character", data);
     this.updateAttributes(data.abilities);
+    this.updateAttributeBonuses(data.abilities.bonuses);
   }
 
   updateValues(root, data) {
@@ -84,6 +85,33 @@ class Editor {
     this.form.find(".points").toggle(abilities.strategy.hasOwnProperty("points_remaining"));
   }
 
+  updateAttributeBonuses(bonuses) {
+    var container = this.form.find(".abilities .bonuses").empty();
+    bonuses.forEach(this.renderAttributeBonus.bind(this));
+  }
+
+  renderAttributeBonus(bonus, index) {
+    var li = $("<li>").appendTo(this.form.find(".abilities .bonuses"));
+    $("<input>", { type: "hidden", name: `character[abilities][bonuses][${index}][bonus]`, value: bonus.bonus }).appendTo(li);
+    $("<span>", { class: "bonus", text: this.signed(bonus.bonus) }).appendTo(li);
+    if (bonus.editable) {
+      this.renderAttributeSelector(bonus.stat).appendTo(li)
+        .attr("name", `character[abilities][bonuses][${index}][stat]`);
+    } else {
+      $("<input>", { type: "hidden", name: `character[abilities][bonuses][${index}][stat]`, value: bonus.stat }).appendTo(li);
+      $("<span>", { class: "stat", text: bonus.stat.toUpperCase() }).appendTo(li);
+    }
+  }
+
+  renderAttributeSelector(selected) {
+    var select = $("<select>");
+    $(".ability[data-ability]").each(function() {
+      var ability = $(this).data("ability");
+      $("<option>", { value: ability, text: ability.toUpperCase(), selected: ability == selected }).appendTo(select);
+    });
+    return select;
+  }
+
   signed(number) {
     return (number < 0 ? "" : "+") + number;
   }
@@ -111,7 +139,13 @@ class Editor {
       }
     }.bind(this));
 
+    json.abilities.bonuses = this.objectToArray(json.abilities.bonuses);
+
     return json;
+  }
+
+  objectToArray(object) {
+    return Object.keys(object).sort().map(key => object[key]);
   }
 
   setJSONValue(root, parts, value) {

@@ -22,7 +22,10 @@
 
       <%= abilities.fields_for :stats, form.object do |stats| -%>
         <div class="stats">
-          <%= render partial: "ability", collection: @character.abilities.sort.map { |a| AbilityPresenter.new(a) }, locals: { form: stats } %>
+          <%= render partial: "ability", collection: @character.abilities, locals: { form: stats } %>
+          <ul class="bonuses">
+            <%= render partial: "ability_bonus", collection: @character.ability_bonuses, locals: { form: abilities } %>
+          </ul>
         </div>
       <% end -%>
     <% end -%>

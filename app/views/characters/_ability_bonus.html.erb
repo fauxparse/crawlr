@@ -1,0 +1,11 @@
+<li>
+  <% prefix = "character[abilities][bonuses][#{ability_bonus_counter}]" -%>
+  <span class="bonus"><%= signed ability_bonus.bonus %></span>
+  <%= hidden_field_tag "#{prefix}[bonus]", ability_bonus.bonus %>
+  <% if ability_bonus.editable? -%>
+    <%= select_tag "#{prefix}[stat]", options_from_collection_for_select(Ability::STATS, :to_s, :upcase, ability_bonus.stat) %>
+  <% else -%>
+    <%= hidden_field_tag "#{prefix}[stat]", ability_bonus.stat %>
+    <span class="stat"><%= ability_bonus.stat.upcase %></span>
+  <% end -%>
+</li>

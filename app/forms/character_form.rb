@@ -22,13 +22,23 @@ class CharacterForm < SimpleDelegator
         abilities.for_stat(stat).base = data[:base]
       end
     end
+
+    self.ability_bonuses = values[:bonuses]
   end
 
   def ability_strategy=(strategy)
     name = strategy[:name]
 
-    @character.ability_strategy_name = name
-    AssignInitialAbilityScores.new(@character, ability_strategy, true).call
+    character.ability_strategy_name = name
+    AssignInitialAbilityScores.new(character, ability_strategy, true).call
+  end
+
+  def ability_bonuses=(bonuses)
+    bonuses.each_with_index do |bonus, index|
+      ability_bonus = character.ability_bonuses[index] || character.ability_bonuses.build
+      ability_bonus.stat = bonus[:stat]
+      ability_bonus.bonus = bonus[:bonus].to_i
+    end
   end
 
   def self.permitted_attributes
@@ -39,7 +49,7 @@ class CharacterForm < SimpleDelegator
         end
       end
 
-      attributes << { abilities: { stats: abilities, strategy: [ :name ] } }
+      attributes << { abilities: { stats: abilities, strategy: [ :name ], bonuses: [:bonus, :stat] } }
       attributes << :race_name
     end
   end
