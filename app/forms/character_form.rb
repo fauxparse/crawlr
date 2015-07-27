@@ -14,6 +14,10 @@ class CharacterForm < SimpleDelegator
     character.ensure_correct_ability_bonuses
   end
 
+  def character_class_name=(value)
+    character.character_class_name = value
+  end
+
   def level=(value)
     character.level = value
   end
@@ -56,6 +60,13 @@ class CharacterForm < SimpleDelegator
       attributes << { abilities: { stats: abilities, strategy: [ :name ], bonuses: [:bonus, :stat] } }
       attributes << :level
       attributes << :race_name
+      attributes << :character_class_name
     end
+  end
+
+  def self.wrapped_parameters
+    permitted_attributes.map do |attribute|
+      attribute.try(:keys) || attribute
+    end.flatten
   end
 end

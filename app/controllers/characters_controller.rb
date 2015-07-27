@@ -1,5 +1,5 @@
 class CharactersController < ApplicationController
-  wrap_parameters Character, include: CharacterForm.permitted_attributes
+  wrap_parameters Character, include: CharacterForm.wrapped_parameters
 
   def index
     @characters = Character.most_recent_first

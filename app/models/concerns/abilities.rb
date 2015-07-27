@@ -77,8 +77,7 @@ module Abilities
     end
   end
 
-  # TODO make this dynamic, based on class
   def primary_ability
-    Ability::STATS.first
+    character_class.primary_ability
   end
 end
