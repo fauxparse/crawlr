@@ -1,5 +1,5 @@
 class CharactersController < ApplicationController
-  wrap_parameters Character, include: [:abilities, :ability_strategy, :race_name]
+  wrap_parameters Character, include: CharacterForm.permitted_attributes
 
   def index
     @characters = Character.most_recent_first

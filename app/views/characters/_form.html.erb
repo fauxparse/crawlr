@@ -1,6 +1,7 @@
 <%= form.hidden_field :id %>
 <div class="character-sheet">
-  <section class="race">
+  <section class="basic">
+    <%= form.number_field :level, min: 1, max: 20 %>
     <%= race_selector form %>
   </section>
 

@@ -30,7 +30,16 @@ module Abilities
   end
 
   def ability_bonus_entitlements
-    race.ability_bonuses
+    race.ability_bonuses + per_level_ability_score_increases
+  end
+
+  def ensure_correct_ability_bonuses
+    entitlements = ability_bonus_entitlements.sort do |a, b|
+      a.first.blank? ? (b.first.blank? ? 0 : 1) : b.first.blank? ? -1 : 0
+    end
+
+    remove_extra_ability_bonuses entitlements
+    add_missing_ability_bonuses entitlements
   end
 
   protected
@@ -43,13 +52,9 @@ module Abilities
     AssignInitialAbilityScores.new(self, ability_strategy).call
   end
 
-  def ensure_correct_ability_bonuses
-    entitlements = ability_bonus_entitlements.sort do |a, b|
-      a.first.blank? ? (b.first.blank? ? 0 : 1) : b.first.blank? ? -1 : 0
-    end
-
-    remove_extra_ability_bonuses entitlements
-    add_missing_ability_bonuses entitlements
+  def per_level_ability_score_increases
+    # +1 to any stat at 4th, 8th, 12th, 16th, 19th levels
+    [[nil, 1]] * (level * 5 / 18).round
   end
 
   def remove_extra_ability_bonuses(entitlements)
@@ -74,6 +79,6 @@ module Abilities
 
   # TODO make this dynamic, based on class
   def primary_ability
-    "str"
+    Ability::STATS.first
   end
 end

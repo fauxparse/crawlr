@@ -11,7 +11,11 @@ class CharacterForm < SimpleDelegator
 
   def race_name=(value)
     character.race_name = value
-    character.send :ensure_correct_ability_bonuses
+    character.ensure_correct_ability_bonuses
+  end
+
+  def level=(value)
+    character.level = value
   end
 
   def abilities=(values)
@@ -50,6 +54,7 @@ class CharacterForm < SimpleDelegator
       end
 
       attributes << { abilities: { stats: abilities, strategy: [ :name ], bonuses: [:bonus, :stat] } }
+      attributes << :level
       attributes << :race_name
     end
   end

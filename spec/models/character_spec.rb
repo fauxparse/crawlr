@@ -47,4 +47,11 @@ RSpec.describe Character, type: :model do
       expect(character.abilities.for_stat("dex").bonus).to eq 0
     end
   end
+
+  describe "at higher levels" do
+    it "grants ability bonuses" do
+      character = Character.create race_name: "human/standard", level: 4
+      expect(character.ability_bonus_entitlements.count).to eq(Ability::STATS.length + 1)
+    end
+  end
 end
