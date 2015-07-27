@@ -1,6 +1,8 @@
 <%= form_for @character, html: { id: "character-editor", class: "character-editor" } do |form| -%>
   <header>
     <div class="container">
+      <%= form.text_field :name %>
+
       <button form="character-editor" rel="save" type="submit">Save</button>
     </div>
   </header>

@@ -12,12 +12,25 @@ label {
   > header {
     @include position(fixed, 0rem 0rem null 0rem);
     background: #222;
-    color: white;
     padding: 1rem 0;
     z-index: 100;
 
+    .container {
+      @include align-items(stretch);
+      @include display(flex);
+      @include flex-direction(row);
+      @include justify-content(flex-start);
+    }
+
+    input {
+      @include flex(1);
+      margin-right: 1em;
+      margin-bottom: 0;
+      border-color: white;
+      font-size: 125%;
+    }
+
     button {
-      float: right;
       margin: 0;
       background: white;
       color: #222;

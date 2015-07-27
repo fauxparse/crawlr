@@ -1,5 +1,5 @@
 class CharacterSerializer < ActiveModel::Serializer
-  attributes :abilities
+  attributes :abilities, :name, :level, :race_name, :character_class_name
 
   alias_method :character, :object
 
@@ -7,6 +7,10 @@ class CharacterSerializer < ActiveModel::Serializer
     super.tap do |attributes|
       attributes[:id] = object.id if object.id.present?
     end
+  end
+
+  def name
+    character.name
   end
 
   def abilities

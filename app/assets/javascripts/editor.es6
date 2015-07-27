@@ -3,6 +3,7 @@ class Editor {
     this.form = $(form)
       .on("input, change", ":input", this.fieldChanged.bind(this))
       .on("mousedown", ".ability .base", this.dragAbilityStart.bind(this))
+      .on("change", "select[name=\"character[race_name]\"]", this.raceChanged.bind(this))
       .on("submit", this.save.bind(this));
     this.saveButton = $("button[rel=save]");
     this.setDirty(false);
@@ -11,6 +12,10 @@ class Editor {
   fieldChanged(e) {
     this.setDirty(true);
     this.scheduleCheck();
+  }
+
+  raceChanged(e) {
+    this._raceChanged = true;
   }
 
   setDirty(dirty) {
@@ -64,6 +69,7 @@ class Editor {
     this.updateValues("character", data);
     this.updateAttributes(data.abilities);
     this.updateAttributeBonuses(data.abilities.bonuses);
+    this._raceChanged = false;
   }
 
   updateValues(root, data) {
@@ -148,6 +154,10 @@ class Editor {
     }.bind(this));
 
     json.abilities.bonuses = this.objectToArray(json.abilities.bonuses);
+
+    if (this._raceChanged) {
+      json.name = "";
+    }
 
     return json;
   }

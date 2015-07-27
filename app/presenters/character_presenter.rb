@@ -3,6 +3,14 @@ class CharacterPresenter < SimpleDelegator
     __getobj__
   end
 
+  def name
+    if character.name.blank?
+      character.race.random_name
+    else
+      character.name
+    end
+  end
+
   def abilities
     character.abilities.sort.map { |a| AbilityPresenter.new(a) }
   end

@@ -1,17 +1,31 @@
 class CharacterForm < SimpleDelegator
-  attr_accessor :character
-
   def initialize(character, params = {})
-    __setobj__ @character = character
+    __setobj__ character
 
-    params.each do |attr, value|
-      self.public_send("#{attr}=", value)
-    end if params
+    if params
+      params.each do |attr, value|
+        self.public_send("#{attr}=", value)
+      end
+    end
+  end
+
+  def character
+    __getobj__
+  end
+
+  def present
+    CharacterPresenter.new character
+  end
+
+  def name=(value)
+    character.name = value
   end
 
   def race_name=(value)
-    character.race_name = value
-    character.ensure_correct_ability_bonuses
+    if character.new_record? || character.race_name != value
+      character.race_name = value
+      character.ensure_correct_ability_bonuses
+    end
   end
 
   def character_class_name=(value)
@@ -57,10 +71,11 @@ class CharacterForm < SimpleDelegator
         end
       end
 
-      attributes << { abilities: { stats: abilities, strategy: [ :name ], bonuses: [:bonus, :stat] } }
+      attributes << :name
       attributes << :level
       attributes << :race_name
       attributes << :character_class_name
+      attributes << { abilities: { stats: abilities, strategy: [ :name ], bonuses: [:bonus, :stat] } }
     end
   end
 

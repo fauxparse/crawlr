@@ -7,6 +7,7 @@ class CharactersController < ApplicationController
 
   def new
     @character = CharacterPresenter.new Character.new
+
     respond_to do |format|
       format.html { render :show }
     end
@@ -17,7 +18,7 @@ class CharactersController < ApplicationController
     character_form.save!
     respond_to do |format|
       format.html { redirect_to character_form.character }
-      format.json { render json: character_form.character, serializer: CharacterSerializer }
+      format.json { render json: character_form.present, serializer: CharacterSerializer }
     end
   end
 
@@ -43,7 +44,7 @@ class CharactersController < ApplicationController
     character = Character.new
     character_form = CharacterForm.new(character, character_params)
     character_form.validate
-    render json: CharacterPresenter.new(character), serializer: CharacterSerializer
+    render json: character_form.present, serializer: CharacterSerializer
   end
 
   private

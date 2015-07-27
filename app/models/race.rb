@@ -3,7 +3,11 @@ class Race
 
   def ability_bonuses
     []
-  end  
+  end
+
+  def random_name
+    ""
+  end
 
   def self.all_races
     dir = File.dirname(__FILE__) + "/race"
