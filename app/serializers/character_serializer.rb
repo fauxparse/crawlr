@@ -1,5 +1,5 @@
 class CharacterSerializer < ActiveModel::Serializer
-  attributes :abilities, :name, :level, :race_name, :character_class_name, :hit_points
+  attributes :abilities, :name, :level, :race_name, :character_class_name, :hit_points, :proficiency_bonus
 
   alias_method :character, :object
 
@@ -11,6 +11,10 @@ class CharacterSerializer < ActiveModel::Serializer
 
   def name
     character.name
+  end
+
+  def proficiency_bonus
+    character.proficiency_bonus
   end
 
   def abilities

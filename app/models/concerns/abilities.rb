@@ -42,6 +42,10 @@ module Abilities
     add_missing_ability_bonuses entitlements
   end
 
+  def proficiency_bonus
+    (level - 1) / 4 + 2
+  end
+
   protected
 
   def initialize_abilities
