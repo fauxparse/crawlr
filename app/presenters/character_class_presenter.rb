@@ -1,4 +1,8 @@
 class CharacterClassPresenter < SimpleDelegator
+  def name
+    value_for_select
+  end
+
   def to_s
     I18n.t class_name.gsub("/", ".")
   end

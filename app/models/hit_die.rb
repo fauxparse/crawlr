@@ -5,7 +5,7 @@ class HitDie < ActiveRecord::Base
 
   belongs_to :character, inverse_of: :hit_dice
 
-  after_initialize :ensure_values
+  before_validation :ensure_values
 
   validates :level,
     presence: true,
@@ -32,6 +32,8 @@ class HitDie < ActiveRecord::Base
   private
 
   def ensure_values
+    puts "ensure values!"
+
     self.points ||= if level == 1
       maximum
     else

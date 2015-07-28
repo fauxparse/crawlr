@@ -21,15 +21,17 @@ class CharacterForm < SimpleDelegator
     character.name = value
   end
 
-  def race_name=(value)
-    if character.new_record? || character.race_name != value
-      character.race_name = value
+  def race=(value)
+    race_name = value[:name]
+    if character.new_record? || character.race_name != race_name
+      character.race_name = race_name
       character.ensure_correct_ability_bonuses
     end
   end
 
-  def character_class_name=(value)
-    character.character_class_name = value
+  def character_class=(value)
+    character_class_name = value[:name]
+    character.character_class_name = character_class_name
   end
 
   def level=(value)
@@ -74,9 +76,9 @@ class CharacterForm < SimpleDelegator
 
       attributes << :name
       attributes << :level
-      attributes << :race_name
-      attributes << :character_class_name
-      attributes << { abilities: { stats: abilities, strategy: [ :name ], bonuses: [:bonus, :stat] } }
+      attributes << { race: [ :name ] }
+      attributes << { character_class: [ :name ] }
+      attributes << { abilities: { stats: abilities, strategy: [ :name ], bonuses: [ :bonus, :stat ] } }
     end
   end
 

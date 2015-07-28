@@ -1,5 +1,5 @@
 class CharacterSerializer < ActiveModel::Serializer
-  attributes :abilities, :name, :level, :race_name, :character_class_name, :hit_points, :proficiency_bonus
+  attributes :abilities, :name, :level, :race, :character_class, :hit_points
 
   alias_method :character, :object
 
@@ -26,6 +26,14 @@ class CharacterSerializer < ActiveModel::Serializer
 
   def hit_points
     { maximum: character.maximum_hit_points }
+  end
+
+  def race
+    RaceSerializer.new character.race
+  end
+
+  def character_class
+    CharacterClassSerializer.new character.character_class
   end
 
   private

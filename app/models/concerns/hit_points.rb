@@ -18,12 +18,14 @@ module HitPoints
 
   def ensure_correct_hit_dice
     hit_dice.select do |die|
-      die.level > level || die.die != character_class.hit_die
+      die.level > level
     end.map(&:mark_for_destruction)
 
     (1..level).each do |l|
       d = hit_dice.detect { |d| d.level == l && !d.marked_for_destruction? } ||
-        hit_dice.build(level: l, die: character_class.hit_die, modifier: abilities.for_stat("con").modifier)
+        hit_dice.build(level: l, modifier: abilities.for_stat("con").modifier)
+      d.die = character_class.hit_die
+      d.validate
     end
   end
 end

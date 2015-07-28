@@ -3,7 +3,7 @@ class Editor {
     this.form = $(form)
       .on("input, change", ":input", this.fieldChanged.bind(this))
       .on("mousedown", ".ability .base", this.dragAbilityStart.bind(this))
-      .on("change", "select[name=\"character[race_name]\"]", this.raceChanged.bind(this))
+      .on("change", "select[name=\"character[race][name]\"]", this.raceChanged.bind(this))
       .on("submit", this.save.bind(this));
     this.saveButton = $("button[rel=save]");
     this.setDirty(!this.form.find("#character_id").val());
@@ -67,8 +67,7 @@ class Editor {
 
   processJSON(data) {
     this.updateValues("character", data);
-    this.updateAttributes(data.abilities);
-    this.updateAttributeBonuses(data.abilities.bonuses);
+    this.updateAbilities(data.abilities);
     this._raceChanged = false;
   }
 
@@ -82,7 +81,7 @@ class Editor {
     }
   }
 
-  updateAttributes(abilities) {
+  updateAbilities(abilities) {
     for (var key of Object.keys(abilities.stats)) {
       var stat = abilities.stats[key];
       this.form.find("[data-ability=" + key + "]")
@@ -97,19 +96,21 @@ class Editor {
     }
 
     this.form.find(".points").toggle(abilities.strategy.hasOwnProperty("points_remaining"));
+
+    this.updateAbilityBonuses(abilities.bonuses);
   }
 
-  updateAttributeBonuses(bonuses) {
+  updateAbilityBonuses(bonuses) {
     var container = this.form.find(".abilities .bonuses").empty();
-    bonuses.forEach(this.renderAttributeBonus.bind(this));
+    bonuses.forEach(this.renderAbilityBonus.bind(this));
   }
 
-  renderAttributeBonus(bonus, index) {
+  renderAbilityBonus(bonus, index) {
     var li = $("<li>").appendTo(this.form.find(".abilities .bonuses"));
     $("<input>", { type: "hidden", name: `character[abilities][bonuses][${index}][bonus]`, value: bonus.bonus }).appendTo(li);
     $("<span>", { class: "bonus", text: this.signed(bonus.bonus) }).appendTo(li);
     if (bonus.editable) {
-      this.renderAttributeSelector(bonus.stat).appendTo(li)
+      this.renderAbilitySelector(bonus.stat).appendTo(li)
         .attr("name", `character[abilities][bonuses][${index}][stat]`);
     } else {
       $("<input>", { type: "hidden", name: `character[abilities][bonuses][${index}][stat]`, value: bonus.stat }).appendTo(li);
@@ -117,7 +118,7 @@ class Editor {
     }
   }
 
-  renderAttributeSelector(selected) {
+  renderAbilitySelector(selected) {
     var select = $("<select>");
     $(".ability[data-ability]").each(function() {
       var ability = $(this).data("ability");

@@ -5,8 +5,12 @@
       Level:
       <%= form.number_field :level, min: 1, max: 20 %>
     <% end -%>
-    <%= race_selector form %>
-    <%= character_class_selector form %>
+    <%= form.fields_for :race, form.object.race do |race| -%>
+      <%= race_selector race %>
+    <% end -%>
+    <%= form.fields_for :character_class, form.object.character_class do |character_class| -%>
+      <%= character_class_selector character_class %>
+    <% end -%>
     <div class="hit-points">
       <%= form.fields_for :hit_points, form.object do |hit_points| -%>
         <label>

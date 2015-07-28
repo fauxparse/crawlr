@@ -11,7 +11,7 @@ module CharactersHelper
     end
 
     choices = races.map { |r| [r.to_s, r.value_for_select] }
-    form.select :race_name, choices
+    form.select :name, choices
   end
 
   def character_class_selector(form)
@@ -20,6 +20,6 @@ module CharactersHelper
     end
 
     choices = classes.map { |c| [c.to_s, c.value_for_select] }
-    form.select :character_class_name, choices
+    form.select :name, choices
   end
 end
