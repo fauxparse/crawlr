@@ -1,11 +1,13 @@
-<h1>Characters</h1>
-<%= link_to "New character", new_character_path, class: :button %>
-<table>
-  <tbody>
-    <% if @characters.any? %>
-      <%= render @characters %>
-    <% else %>
+<div class="container">
+  <h1>Characters</h1>
+  <%= link_to "New character", new_character_path, class: :button %>
+  <table>
+    <tbody>
+      <% if @characters.any? %>
+        <%= render @characters %>
+      <% else %>
 
-    <% end %>
-  </tbody>
-</table>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -2,7 +2,7 @@ class CharactersController < ApplicationController
   wrap_parameters Character, include: CharacterForm.wrapped_parameters
 
   def index
-    @characters = Character.most_recent_first
+    @characters = Character.most_recent_first.map { |c| CharacterPresenter.new c}
   end
 
   def new

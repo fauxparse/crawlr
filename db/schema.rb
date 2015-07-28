@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150727210250) do
+ActiveRecord::Schema.define(version: 20150728001146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,15 @@ ActiveRecord::Schema.define(version: 20150727210250) do
     t.string   "character_class_name",  default: "fighter",        null: false
   end
 
+  create_table "hit_dice", force: :cascade do |t|
+    t.integer "character_id"
+    t.integer "level",        null: false
+    t.integer "points",       null: false
+    t.integer "modifier",     null: false
+    t.string  "die",          null: false
+  end
+
   add_foreign_key "abilities", "characters", on_delete: :cascade
   add_foreign_key "ability_bonuses", "characters", on_delete: :cascade
+  add_foreign_key "hit_dice", "characters", on_delete: :cascade
 end

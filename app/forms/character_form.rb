@@ -56,8 +56,9 @@ class CharacterForm < SimpleDelegator
   end
 
   def ability_bonuses=(bonuses)
-    bonuses.each_with_index do |bonus, index|
-      ability_bonus = character.ability_bonuses[index] || character.ability_bonuses.build
+    (bonuses || []).each_with_index do |bonus, index|
+      ability_bonus = character.ability_bonuses.reject(&:marked_for_destruction?)[index] ||
+        character.ability_bonuses.build
       ability_bonus.stat = bonus[:stat]
       ability_bonus.bonus = bonus[:bonus].to_i
     end

@@ -6,7 +6,7 @@ class Editor {
       .on("change", "select[name=\"character[race_name]\"]", this.raceChanged.bind(this))
       .on("submit", this.save.bind(this));
     this.saveButton = $("button[rel=save]");
-    this.setDirty(false);
+    this.setDirty(!this.form.find("#character_id").val());
   }
 
   fieldChanged(e) {
@@ -153,7 +153,7 @@ class Editor {
       }
     }.bind(this));
 
-    json.abilities.bonuses = this.objectToArray(json.abilities.bonuses);
+    json.abilities.bonuses = this.objectToArray(json.abilities.bonuses || []);
 
     if (this._raceChanged) {
       json.name = "";

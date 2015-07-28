@@ -45,7 +45,7 @@ label {
 
   .basic {
     background: #ddd;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
     border-radius: $border-radius;
     margin-bottom: 1rem;
     @include align-items(stretch);

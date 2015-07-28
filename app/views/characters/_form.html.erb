@@ -2,11 +2,19 @@
 <div class="character-sheet">
   <section class="basic">
     <%= form.label :level do -%>
-      Level
+      Level:
       <%= form.number_field :level, min: 1, max: 20 %>
     <% end -%>
     <%= race_selector form %>
     <%= character_class_selector form %>
+    <div class="hit-points">
+      <%= form.fields_for :hit_points, form.object do |hit_points| -%>
+        <label>
+          Hit points:
+          <%= hit_points.number_field :maximum, value: hit_points.object.maximum_hit_points, disabled: true %>
+        </label>
+      <% end -%>
+    </div>
   </section>
 
   <section class="abilities">

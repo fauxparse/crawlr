@@ -1,5 +1,5 @@
 class CharacterSerializer < ActiveModel::Serializer
-  attributes :abilities, :name, :level, :race_name, :character_class_name
+  attributes :abilities, :name, :level, :race_name, :character_class_name, :hit_points
 
   alias_method :character, :object
 
@@ -20,6 +20,12 @@ class CharacterSerializer < ActiveModel::Serializer
     { stats: Hash[*all.flatten], strategy: ability_strategy, bonuses: ability_bonuses }
   end
 
+  def hit_points
+    { maximum: character.maximum_hit_points }
+  end
+
+  private
+
   def ability_bonuses
     character.ability_bonuses
       .map { |b| Ability::BonusSerializer.new(b) }
@@ -28,8 +34,6 @@ class CharacterSerializer < ActiveModel::Serializer
   def ability_strategy
     ability_strategy_serializer_for character.ability_strategy
   end
-
-  private
 
   def ability_strategy_serializer_for(strategy)
     klass = begin

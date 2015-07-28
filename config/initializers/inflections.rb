@@ -6,6 +6,8 @@
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.plural /^(.*)onus$/i, '\1onuses'
   inflect.singular /^(.*onus)es$/i, '\1'
+  inflect.plural /^(hit[ _])?die$/, '\1dice'
+  inflect.singular /^(hit[ _])?dice$/, '\1die'
 end
 
 # These inflection rules are supported but not enabled by default:

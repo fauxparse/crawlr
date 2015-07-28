@@ -5,6 +5,10 @@ class CharacterClass
     "str"
   end
 
+  def hit_die
+    "1d10"
+  end
+
   def self.all_classes
     dir = File.dirname(__FILE__) + "/character_class"
     @subclasses ||= Dir.glob("#{dir}/**/*.rb").map do |file|

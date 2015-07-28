@@ -11,6 +11,22 @@ class CharacterPresenter < SimpleDelegator
     end
   end
 
+  def description
+    "Level #{level} #{race} #{character_class}"
+  end
+
+  def maximum_hit_points
+    character.maximum_hit_points
+  end
+
+  def race
+    RacePresenter.new character.race
+  end
+
+  def character_class
+    CharacterClassPresenter.new character.character_class
+  end
+
   def abilities
     character.abilities.sort.map { |a| AbilityPresenter.new(a) }
   end
